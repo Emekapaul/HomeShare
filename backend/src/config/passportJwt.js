@@ -8,11 +8,6 @@ const publicKey = process.env.PUBLIC_KEY.includes("\\n")
   ? process.env.PUBLIC_KEY.replace(/\\n/g, "\n")
   : process.env.PUBLIC_KEY;
 
-console.log(
-  "Public Key (first All chars):",
-  publicKey ? publicKey.slice(0) : "Key not found"
-);
-
 // JWT Strategy options
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

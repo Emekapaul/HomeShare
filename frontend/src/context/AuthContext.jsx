@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(userData));
       axios.defaults.headers.common["Authorization"] = token;
       toast.success(message);
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       const errorMessage = handleCrudError(err);
       setError(errorMessage);

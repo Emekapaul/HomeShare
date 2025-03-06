@@ -12,11 +12,11 @@ const App = () => {
       <main className="min-h-screen">
         <Routes>
           {/* Public Routes */}
-          <Route path="/emailverify" element={<EmailVerificationModal />} />
+          <Route path="/" element={<EmailVerificationModal />} />
 
           {/* Private Route */}
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <Suspense

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { FaTwitter, FaTelegramPlane, FaYoutube, FaCheck } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 import SocialContext from "../context/SocialContext";
 import Modal from "react-modal";
 
@@ -11,9 +12,21 @@ const SocialsSection = ({ socialsRef }) => {
   const { socialData, updateSocials, loading, error } =
     useContext(SocialContext);
   const [isSubmitting, setIsSubmitting] = useState({});
+  const [goStatus, setGoStatus] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleGoClick = (platform) => {
+    setGoStatus((prev) => ({ ...prev, [platform]: true }));
+  };
+
   const handleSocialClick = (platform) => {
+    if (!goStatus[platform] && platform === "twitter")
+      return toast.error("Please follow our twitter before verifying");
+    if (!goStatus[platform] && platform === "telegram")
+      return toast.error("Please join our Telegram group before verifying");
+    if (!goStatus[platform] && platform === "youtube")
+      return toast.error("Please subscribe to our youtube before verifying");
+
     setIsSubmitting((prev) => ({ ...prev, [platform]: true }));
 
     setTimeout(async () => {
@@ -25,7 +38,7 @@ const SocialsSection = ({ socialsRef }) => {
       } finally {
         setIsSubmitting((prev) => ({ ...prev, [platform]: false })); // Ensures the button reactivates even if an error occurs
       }
-    }, 10000); // 5-second delay
+    }, 5000); // 5-second delay
   };
 
   // Open modal when allVerified is true
@@ -82,6 +95,7 @@ const SocialsSection = ({ socialsRef }) => {
                     href="https://x.com/shareshome?s=11"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => handleGoClick("twitter")}
                     className=" hover:text-gray-700 hover:underline cursor-pointer"
                   >
                     Go
@@ -124,6 +138,7 @@ const SocialsSection = ({ socialsRef }) => {
                     href="https://t.me/+Fk_KrnfCnio0NzFk"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => handleGoClick("telegram")}
                     className=" hover:text-gray-700 hover:underline cursor-pointer"
                   >
                     Go
@@ -166,6 +181,7 @@ const SocialsSection = ({ socialsRef }) => {
                     href="https://youtube.com/"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => handleGoClick("youtube")}
                     className=" hover:text-gray-700 hover:underline cursor-pointer"
                   >
                     Go

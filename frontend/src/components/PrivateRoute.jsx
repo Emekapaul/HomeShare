@@ -6,7 +6,7 @@ const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useContext(AuthContext);
 
   if (loading) return <div>Loading...</div>; // You can replace this with a spinner or skeleton screen
-  return isAuthenticated ? children : <Navigate to="/emailverify" />;
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

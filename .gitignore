@@ -13,3 +13,6 @@ build/
 # Ignore log files
 logs/
 *.log
+
+private_rsa.pem
+public_rsa.pem

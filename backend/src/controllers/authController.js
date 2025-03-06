@@ -69,6 +69,6 @@ export const verifyCode = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Error in verifyCode:", error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error", message: error.message });
   }
 };

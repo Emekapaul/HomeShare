@@ -26,7 +26,7 @@ const PropertyListing = () => {
           />
           <div className="p-6">
             <h3 className="text-xl font-semibold mb-2">2 Bed Room flat</h3>
-            <p className="text-gray-600 mb-4">$1,000</p>
+            <p className="text-gray-600 mb-4">$5,000</p>
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -36,8 +36,8 @@ const PropertyListing = () => {
             className="w-full h-48 object-cover"
           />
           <div className="p-6">
-            <h3 className="text-xl font-semibold mb-2">3 Bed Roon flat</h3>
-            <p className="text-gray-600 mb-4">$1,400</p>
+            <h3 className="text-xl font-semibold mb-2">3 Bed Room flat</h3>
+            <p className="text-gray-600 mb-4">$6,400</p>
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -48,7 +48,7 @@ const PropertyListing = () => {
           />
           <div className="p-6">
             <h3 className="text-xl font-semibold mb-2">Modern Estate</h3>
-            <p className="text-gray-600 mb-4">$5,200 per unit</p>
+            <p className="text-gray-600 mb-4">$20,200 per unit</p>
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -59,7 +59,7 @@ const PropertyListing = () => {
           />
           <div className="p-6">
             <h3 className="text-xl font-semibold mb-2">Modern Estate</h3>
-            <p className="text-gray-600 mb-4">$5,000</p>
+            <p className="text-gray-600 mb-4">$18,000</p>
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -70,7 +70,7 @@ const PropertyListing = () => {
           />
           <div className="p-6">
             <h3 className="text-xl font-semibold mb-2">Modern Villa</h3>
-            <p className="text-gray-600 mb-4">$1,250,000</p>
+            <p className="text-gray-600 mb-4">$10,000</p>
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -81,7 +81,7 @@ const PropertyListing = () => {
           />
           <div className="p-6">
             <h3 className="text-xl font-semibold mb-2">Modern Villa</h3>
-            <p className="text-gray-600 mb-4">$1,250,000</p>
+            <p className="text-gray-600 mb-4">$16,000</p>
           </div>
         </div>
         {/* Repeat similar block for other properties */}

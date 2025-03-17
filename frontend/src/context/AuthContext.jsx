@@ -23,8 +23,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
-    console.log("Stored Token on Mount:", storedToken);
-    console.log("Stored User on Mount:", storedUser);
     if (storedToken && storedUser) {
       axios.defaults.headers.common["Authorization"] = storedToken;
       setToken(storedToken);
@@ -37,6 +35,25 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
     }
     setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          if (error.response.data.error === "Unauthorized: Token has expired") {
+            toast.error("Session expired. Please log in again.");
+            logout();
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
   }, []);
 
   // Register User
@@ -57,8 +74,6 @@ export const AuthProvider = ({ children }) => {
 
   // Verify Code & Issue Token
   const verifyCode = async (code) => {
-    console.log("email", regEmail);
-    console.log("CHECKING");
     try {
       setLoading(true);
       const response = await axios.post(`${API_URL}/verify`, {

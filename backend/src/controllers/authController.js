@@ -14,16 +14,21 @@ export const register = async (req, res) => {
     }
 
     let user = await User.findOne({ email });
-    const { rawCode, hashedCode } = await generateHashedCode(); // Generate and hash code
+    const { rawCode, hashedCode, expiresIn } = await generateHashedCode(); // Generate and hash code
 
     if (!user) {
-      user = new User({ email, verificationCode: hashedCode });
+      user = new User({
+        email,
+        verificationCode: hashedCode,
+        verificationCodeExpires: expiresIn,
+      });
       await user.save();
 
       // Create a corresponding social profile for the user
       await Social.create({ userId: user._id });
     } else {
       user.verificationCode = hashedCode;
+      user.verificationCodeExpires = expiresIn;
       await user.save();
     }
 
@@ -38,7 +43,6 @@ export const register = async (req, res) => {
 // Verify Code and Issue Token
 export const verifyCode = async (req, res) => {
   const { email, code } = req.body;
-  console.log(email, code);
 
   try {
     if (!code) {
@@ -50,6 +54,10 @@ export const verifyCode = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    if (user.verificationCodeExpires < Date.now()) {
+      return res.status(400).json({ error: "Verification code has expired" });
+    }
+
     const isMatch = await compareCode(code, user.verificationCode);
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid verification code" });
@@ -57,6 +65,7 @@ export const verifyCode = async (req, res) => {
 
     user.isVerified = true;
     user.verificationCode = null;
+    user.verificationCodeExpires = null;
     await user.save();
 
     const { token } = issueJwt(user);

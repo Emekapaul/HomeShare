@@ -14,5 +14,8 @@ build/
 logs/
 *.log
 
+# Ignore private & public keys
+private.pem
+public.pem
 private_rsa.pem
 public_rsa.pem

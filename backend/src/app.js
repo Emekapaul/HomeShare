@@ -1,5 +1,5 @@
 import express from "express";
-import passport from "./config/passportJwt.js";
+import passport from "./authStrategy/passportJwt.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";

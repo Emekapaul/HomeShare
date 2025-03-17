@@ -22,7 +22,7 @@ export const SocialProvider = ({ children }) => {
       if (storedSocials) {
         setSocialData(JSON.parse(storedSocials));
       } else {
-        fetchSocials(); // Fetch socials if no data is present in localStorage
+        fetchSocials();
       }
     }
   }, [isAuthenticated]);
@@ -58,10 +58,8 @@ export const SocialProvider = ({ children }) => {
     try {
       const response = await axios.get(`${API_URL}/status`);
       const { socials } = response.data;
-      console.log("Socials ", socials);
-      console.log("Socials Data ", response.data);
-      setSocialData(socials);
       localStorage.setItem("socials", JSON.stringify(socials));
+      setSocialData(socials);
     } catch (err) {
       const errorMessage = handleCrudError(err);
       setError(errorMessage);
@@ -70,6 +68,8 @@ export const SocialProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+  // localStorage.clear();
 
   const userEmail = async (emailData) => {
     setLoading(true);
@@ -84,8 +84,6 @@ export const SocialProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
-  // localStorage.clear();
 
   return (
     <SocialContext.Provider

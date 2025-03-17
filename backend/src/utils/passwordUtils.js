@@ -4,7 +4,9 @@ import bcrypt from "bcrypt";
 export const generateHashedCode = async () => {
   const rawCode = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedCode = await bcrypt.hash(rawCode, 10); // Hash the code
-  return { rawCode, hashedCode };
+  const expiresIn = new Date(Date.now() + 10 * 60 * 1000);
+
+  return { rawCode, hashedCode, expiresIn };
 };
 
 // Compare user input with the hashed verification code

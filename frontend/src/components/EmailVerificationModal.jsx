@@ -12,7 +12,6 @@ const EmailVerificationModal = () => {
   const { register, verifyCode, loading, regEmail, error } =
     useContext(AuthContext); // Get auth functions
 
-  // Handle Email Submission
   const handleEmailSubmit = async () => {
     if (!email.trim()) return setfeError("Email is required");
 
@@ -27,7 +26,6 @@ const EmailVerificationModal = () => {
     }
   };
 
-  // Handle Code Verification
   const handleCodeSubmit = async () => {
     if (!verificationCode.trim())
       return setfeError("Verification Code is required");
@@ -39,6 +37,16 @@ const EmailVerificationModal = () => {
       console.error("Code verification error:", err);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Handle Form Submit
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (step === 1) {
+      handleEmailSubmit();
+    } else {
+      handleCodeSubmit();
     }
   };
 
@@ -91,7 +99,11 @@ const EmailVerificationModal = () => {
           )}
 
           <img src={logo} alt="Logo" className="w-20 h-20 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold italic text-center mb-4">
+          <h1
+            className={`text-2xl font-bold text-center mb-4 ${
+              step === 2 ? "bg-yellow-500 rounded-lg" : ""
+            }`}
+          >
             {step === 1 ? "Join HomeShare" : regEmail}
           </h1>
           <h2 className="text-2xl md:text-xl font-bold text-center mb-4">
@@ -105,39 +117,41 @@ const EmailVerificationModal = () => {
               : "Check your email and enter the code below."}
           </p>
 
-          {/* Input Field */}
-          <input
-            id={step === 1 ? "email" : "code"}
-            name={step === 1 ? "email" : "code"}
-            type={step === 1 ? "email" : "text"}
-            placeholder={step === 1 ? "Enter your email" : "Enter code"}
-            value={step === 1 ? email : verificationCode}
-            autoComplete={step === 1 ? "email" : "off"}
-            onChange={handleInputChange}
-            className="w-full p-3 rounded-lg text-white outline-none focus:ring-2 focus:ring-yellow-500 border-1 border-gray-500"
-          />
+          {/* Form */}
+          <form onSubmit={handleFormSubmit}>
+            <input
+              id={step === 1 ? "email" : "code"}
+              name={step === 1 ? "email" : "code"}
+              type={step === 1 ? "email" : "text"}
+              placeholder={step === 1 ? "Enter your email" : "Enter code"}
+              value={step === 1 ? email : verificationCode}
+              autoComplete={step === 1 ? "email" : "off"}
+              onChange={handleInputChange}
+              className="w-full p-3 rounded-lg text-white outline-none focus:ring-2 focus:ring-yellow-500 border-1 border-gray-500"
+            />
 
-          {/* Error Message */}
-          {(error || feError) && (
-            <p className="text-red-500 text-center mt-2">{feError || error}</p>
-          )}
+            {/* Error Message */}
+            {feError && (
+              <p className="text-red-500 text-center mt-2">{feError}</p>
+            )}
 
-          {/* Submit Button */}
-          <button
-            onClick={step === 1 ? handleEmailSubmit : handleCodeSubmit}
-            className={`w-full mt-4 bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 py-3 rounded-lg text-lg font-semibold ${
-              isSubmitting || loading
-                ? "opacity-50 cursor-not-allowed"
-                : "cursor-pointer"
-            }`}
-            disabled={isSubmitting || loading}
-          >
-            {isSubmitting || loading
-              ? "Processing..."
-              : step === 1
-              ? "Send Code"
-              : "Verify & Login"}
-          </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className={`w-full mt-4 bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 py-3 rounded-lg text-lg font-semibold ${
+                isSubmitting || loading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+              disabled={isSubmitting || loading}
+            >
+              {isSubmitting || loading
+                ? "Processing..."
+                : step === 1
+                ? "Send Code"
+                : "Verify & Login"}
+            </button>
+          </form>
         </motion.div>
       </motion.div>
     </AnimatePresence>
